@@ -23,19 +23,18 @@ def main():
     server.bind((host,port))
     server.listen()
     try:
-        #configure and send Configuration to the first one connecting me 
-        client1,address1=server.accept() 
-        client2,address2=server.accept() 
-        
-        client1.send("1".encode("utf-8")) 
-        client2.send("2".encode("utf-8")) 
-        
-        thread1=Thread(target=receive,args=(client1,client2))
-        thread2=Thread(target=receive,args=(client2,client1))
-        thread1.start()
-        thread2.start()
-        thread1.join()
-        thread2.join()
+        while True :
+            #configure and send Configuration to the first one connecting me 
+            client1,address1=server.accept() 
+            client2,address2=server.accept() 
+            
+            client1.send("1".encode("utf-8")) 
+            client2.send("2".encode("utf-8")) 
+            
+            thread1=Thread(target=receive,args=(client1,client2))
+            thread2=Thread(target=receive,args=(client2,client1))
+            thread1.start()
+            thread2.start()
     except Exception as ex :
         print(ex)
         client1.close()
